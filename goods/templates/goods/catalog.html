@@ -92,7 +92,7 @@
         <div class="custom-shadow d-flex">
 
             <li class="page-item {% if not goods.has_previous %}disabled{% endif %}">
-              <a class="page-link" href="{% if goods.has_previous %}?{%change_params page=goods.previous_page_number %}}{% else %}#{% endif %}">Назад</a>
+                <a class="page-link" href="{% if goods.has_previous %}?{% change_params page=goods.previous_page_number %}{% else %}#{% endif %}">Назад</a>
             </li>
 
             {% for page in goods.paginator.page_range %}
