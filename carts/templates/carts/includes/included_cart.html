@@ -14,16 +14,17 @@
             <div class="row text-center">
                 <div class="col p-0">
                     <div class="input-group">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-dark btn-sm decrement"
-                                data-cart-id="" data-cart-change-url="">-</button>
-                        </span>
+                        <form action="{% url 'carts:cart_dicrement' cart.product.slug %}" method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="action" value="decrement">
+                            <button type="submit" class="btn btn-dark btn-sm decrement">-</button>
+                        </form>
                         <input type="text" class="form-control number" value="{{ cart.quantity }}"
                             readonly>
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-dark btn-sm increment"
-                                data-cart-id="" data-cart-change-url="{% url "cart:cart_change" %}">+</button>
-                        </span>
+                            <form action="{% url 'carts:cart_change' cart.product.slug %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-dark btn-sm increment">+</button>
+                            </form>
                     </div>
                 </div>
                 <div class="col p-0">
