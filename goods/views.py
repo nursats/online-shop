@@ -8,42 +8,44 @@ from .models import Products
 
 
 class CatalogView(ListView):
-    #model = Products
+    model = Products
+    # queryset = Products.objects.all().order_by("-id")
     template_name = "goods/catalog.html"
-    context_object_name='goods'
+    context_object_name = "goods"
     paginate_by = 3
-
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        context['title'] = 'home - каталог'
-        context['slug_url'] = self.kwargs.get("category_slug")
-        return context
-
+    allow_empty = False
+    # чтоб удобно передать в методы
+    slug_url_kwarg = "category_slug"
 
     def get_queryset(self):
+        category_slug = self.kwargs.get(self.slug_url_kwarg)
+        on_sale = self.request.GET.get("on_sale")
+        order_by = self.request.GET.get("order_by")
+        query = self.request.GET.get("q")
 
-        category_slug = self.kwargs.get("category_slug")
-        on_sale = self.kwargs.get("on_sale")
-        order_by = self.kwargs.get("order_by")
-        query = self.kwargs.get("q")
-        
-
-        if category_slug == 'all':
-            goods = Products.objects.all()
+        if category_slug == "all":
+            goods = super().get_queryset()
         elif query:
             goods = q_search(query)
         else:
-            goods = Products.objects.filter(category__slug=category_slug)
+            goods = super().get_queryset().filter(category__slug=category_slug)
             if not goods.exists():
                 raise Http404()
-            
+
         if on_sale:
             goods = goods.filter(discount__gt=0)
-        
+
         if order_by and order_by != "default":
             goods = goods.order_by(order_by)
 
         return goods
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["title"] = "Home - Каталог"
+        context["slug_url"] = self.kwargs.get(self.slug_url_kwarg)
+        return context
+
 
 
 
