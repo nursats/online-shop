@@ -24,7 +24,10 @@ env = environ.Env(
     DATABASE_USER=(str, 'default_db_user'),
     DATABASE_PASSWORD=(str, 'default_db_password'),
     DATABASE_HOST=(str, 'localhost'),
-    DATABASE_PORT=(int, 5432)
+    DATABASE_PORT=(int, 5432),
+
+    REDIS_HOST=(str),
+    REDIS_PORT=(str),
 )
 
 
@@ -63,6 +66,7 @@ INSTALLED_APPS = [
     'goods',
     'users',
     'carts',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -142,6 +146,16 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
+
+REDIS_HOST = env('REDIS_HOST')
+REDIS_PORT = env('REDIS_PORT')
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
+    }
+}
 
 
 # Static files (CSS, JavaScript, Images)
