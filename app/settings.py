@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
-from django.conf.global_settings import MEDIA_ROOT, MEDIA_URL
+from django.conf.global_settings import EMAIL_BACKEND, MEDIA_ROOT, MEDIA_URL
 import environ
 
 env = environ.Env(
@@ -24,9 +24,19 @@ env = environ.Env(
     DATABASE_USER=(str, 'default_db_user'),
     DATABASE_PASSWORD=(str, 'default_db_password'),
     DATABASE_HOST=(str, 'localhost'),
-    DATABASE_PORT=(int, 5432)
+    DATABASE_PORT=(int, 5432),
+
+    EMAIL_HOST=(str),
+    EMAIL_PORT=(int),
+    EMAIL_HOST_USER=(str),
+    EMAIL_HOST_PASSWORD=(str),
+    EMAIL_USE_SSL=(bool),
+
+    REDIS_HOST=(str),
+    REDIS_PORT=(str),
 )
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -63,6 +73,7 @@ INSTALLED_APPS = [
     'goods',
     'users',
     'carts',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -143,6 +154,16 @@ USE_I18N = True
 
 USE_TZ = True
 
+REDIS_HOST = env('REDIS_HOST')
+REDIS_PORT = env('REDIS_PORT')
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.redis.RedisCache",
+        'LOCATION': f'redis://{REDIS_HOST}:{REDIS_PORT}/1',
+    }
+}
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -170,3 +191,7 @@ INTERNAL_IPS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+]

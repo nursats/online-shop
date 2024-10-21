@@ -1,0 +1,80 @@
+<html><head><base href="https://websim.ai/confirm-registration/">
+    <title>Registration Confirmation | WebSim</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        p {
+            color: #34495e;
+            margin-bottom: 1.5rem;
+        }
+        .code-input {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+        .code-input input {
+            width: 40px;
+            height: 50px;
+            font-size: 24px;
+            text-align: center;
+            margin: 0 5px;
+            border: 2px solid #3498db;
+            border-radius: 4px;
+        }
+        .submit-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #2980b9;
+        }
+        .message {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+        .success {
+            color: #27ae60;
+        }
+        .error {
+            color: #c0392b;
+        }
+    </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Confirm Your Registration</h1>
+            <p>Please enter the 6-digit code sent to your email to complete your registration:</p>
+            <div class="code-input" id="codeInputContainer"></div>
+            <button class="submit-btn" onclick="validateCode()">Confirm Registration</button>
+            <p class="message" id="message"></p>
+        </div>
+    </body>
+    </html>
