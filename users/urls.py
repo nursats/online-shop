@@ -11,5 +11,6 @@ urlpatterns = [
     path('users-cart/', views.users_cart, name='users_cart'),
     path('logout/', views.logout, name='logout'),
 
-
+    path('activate/<uidb64>/<token>/', views.activate, name='activate'),
+ 
 ]
